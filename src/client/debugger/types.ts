@@ -10,6 +10,7 @@ import { DebuggerTypeName } from './constants';
 export enum DebugOptions {
     RedirectOutput = 'RedirectOutput',
     Django = 'Django',
+    DjangoDebugging = 'DjangoDebugging',
     Jinja = 'Jinja',
     DebugStdLib = 'DebugStdLib',
     Sudo = 'Sudo',
@@ -25,6 +26,7 @@ export enum DebugOptions {
 interface ICommonDebugArguments {
     redirectOutput?: boolean;
     django?: boolean;
+    djangoDebugging?: boolean;
     gevent?: boolean;
     jinja?: boolean;
     debugStdLib?: boolean;

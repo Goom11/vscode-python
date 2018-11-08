@@ -34,6 +34,9 @@ export class PythonV2DebugConfigurationProvider extends BaseConfigurationProvide
         if (debugConfiguration.django) {
             this.debugOption(debugOptions, DebugOptions.Django);
         }
+        if (debugConfiguration.djangoDebugging) {
+            this.debugOption(debugOptions, DebugOptions.Django);
+        }
         if (debugConfiguration.jinja) {
             this.debugOption(debugOptions, DebugOptions.Jinja);
         }
@@ -69,6 +72,9 @@ export class PythonV2DebugConfigurationProvider extends BaseConfigurationProvide
             this.debugOption(debugOptions, DebugOptions.DebugStdLib);
         }
         if (debugConfiguration.django) {
+            this.debugOption(debugOptions, DebugOptions.Django);
+        }
+        if (debugConfiguration.djangoDebugging) {
             this.debugOption(debugOptions, DebugOptions.Django);
         }
         if (debugConfiguration.jinja) {
