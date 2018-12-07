@@ -92,7 +92,12 @@ export class LocalDebugClient extends DebugClient<LaunchRequestArguments> {
             if (typeof this.args.pythonPath === 'string' && this.args.pythonPath.trim().length > 0) {
                 pythonPath = this.args.pythonPath;
             }
-            const args = this.buildLaunchArguments(processCwd, dbgServer.port);
+            let args = this.buildLaunchArguments(processCwd, dbgServer.port);
+            const [headProgram, ...rest] = args;
+            // hacky workaround for ifbpy
+            if (pythonPath.includes('ifbpy') && !pythonPath.includes('-vs_debugger.par')) {
+                args = [headProgram, '--', ...rest];
+            }
             switch (this.args.console) {
                 case 'externalTerminal':
                 case 'integratedTerminal': {
