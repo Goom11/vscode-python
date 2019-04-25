@@ -1,6 +1,8 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+# Built from https://github.com/Goom11/vscode-python and https://github.com/Goom11/ptvsd
+
 import os
 import os.path
 import sys
@@ -14,6 +16,7 @@ def load(main_module):
         try:
             import ptvsd
             import ptvsd.debugger as vspd
+            from ptvsd.__main__ import main
             ptvsd_loaded = True
         except ImportError:
             ptvsd_loaded = False
@@ -23,7 +26,7 @@ def load(main_module):
         traceback.print_exc()
         print('''
     Internal error detected. Please copy the above traceback and report it.
-    
+
     Press Enter to close. . .''')
         try:
             raw_input()
@@ -36,13 +39,14 @@ def load(main_module):
 
     # For some reason, sys.path gets modified and we need to preserve sys.path[0]
     sys.path.insert(0, sys.path[0])
-    
+
     # Fetch port_num from sys.argv
-    port_num = int(sys.argv[6])
+    port_num = sys.argv[6]
     run_as = "module"
     # Clear not run arguments
     sys.argv[1:8] = []
-    
-    # Built from https://github.com/Goom11/vscode-python and https://github.com/Goom11/ptvsd
-    vspd.debug(main_module, port_num, "", "", run_as)
+    # return [launcher, ...additionalPtvsdArgs, '--client', '--host', 'localhost', '--port', debugPort.toString()];
+    # Reinsert args in the order expected by main
+    sys.argv[1:1] = ['--client', '--host', 'localhost', '--port', port_num, '-m', main_module]
 
+    main(sys.argv)
